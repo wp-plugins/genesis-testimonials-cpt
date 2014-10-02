@@ -1,0 +1,31 @@
+.lp-testimonial{
+    background-color: #f6f6f6;
+    margin-bottom: 40px;
+}
+.lp-testimonial span, .lp-testimonial h3, .lp-testimonial strong, .sectors{
+    color: #999;
+}
+.lp-testimonial .col{
+    padding: 40px;
+}
+.lp-testimonial .wp-post-image{
+    border-radius: 100%;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    max-width: 100px;
+    width: 100%;
+}
+.lp-testimonial .lp-profile_pic{
+    text-align: center;
+    padding-bottom: 0px;
+    padding-right: 0px;
+}
+.text-center{
+    text-align: center;
+}
+
+@media (min-width: 768px) { 
+    .lp-testimonial .lp-profile_pic{
+        padding-bottom: 40px;
+    }
+}
