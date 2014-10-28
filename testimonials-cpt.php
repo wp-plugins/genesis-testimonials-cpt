@@ -98,7 +98,7 @@ class lpTestimonial {
                     'parent_item_colon' => ''
                 ),
                 'exclude_from_search' => false,
-                'has_archive' => false,
+                'has_archive' => true,
                 'hierarchical' => true,
                 'taxonomies'   => array( 'lp-sector' ),
                 'public' => true,
