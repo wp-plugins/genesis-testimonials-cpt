@@ -1,6 +1,6 @@
 === Genesis Testimonials CPT ===
 Contributors: James Roberts
-Tags:
+Tags: Genesis, Testimonials, CPT
 Requires at least: 3.9
 Tested up to: 4.0
 License: GPL2

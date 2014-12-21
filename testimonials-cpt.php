@@ -26,9 +26,6 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-//include plugins
-include( plugin_dir_path( __FILE__ ) . 'inc/plugins/plugins.php');
-
 /**
  * This class creates a custom post type lp-testimonials, this post type allows the user to create 
  * testimonial entries to display in the Testimonials page template.
@@ -38,7 +35,7 @@ include( plugin_dir_path( __FILE__ ) . 'inc/plugins/plugins.php');
  */
 class lpTestimonial {
     /**
-    * Initiate functions and shortcode.
+    * Initiate functions.
     *
     * @since 1.0
     * @link https://llama-press.com
@@ -59,12 +56,6 @@ class lpTestimonial {
         
         /* Remove permalink section from testimonials edit post screen  */
         add_action('admin_print_styles-post.php', array( $this, 'posttype_admin_css' ) );
-        
-        /* add shortcode  */
-        add_shortcode('testimonials', array( $this, 'testimonial_shortcode' ) ); 
-        
-        /* enque styles for shortcode */
-        wp_enqueue_style( 'testimonials', plugins_url('genesis-testimonials-cpt/style.css') ); 
         
         /* create text domain */
         load_plugin_textdomain( 'lp', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
@@ -108,6 +99,7 @@ class lpTestimonial {
                 'query_var'           => false,
             )
         );
+        flush_rewrite_rules(); 
     }
 
     /**
@@ -238,81 +230,6 @@ class lpTestimonial {
         if($post_type == 'lp-testimonials') {
             echo '<style type="text/css">#edit-slug-box, #view-post-btn, #post-preview, .updated #edit-slug-box, .preview{ display: none !important; }</style>';
         }
-    }
-     
-    /**
-    * Creates shortcode to display testimonials on any post or page.
-    * 
-    * @since 1.0
-    * @link https://llama-press.com
-    */
-    public function testimonial_shortcode( $atts ) {
-        
-            $atts = shortcode_atts( array(
-              'amount' => '',
-              'orderby' => '',
-              'order' => ''
-            ), $atts );
-            $amount = $atts['amount'];
-            $orderby = $atts['orderby'];
-            if( $orderby == "" ) $orderby = 'post_date';
-            $order = $atts['order'];
-            if( $order == "" ) $order = 'DESC';
-            
-            if( $amount != '' ){
-                $args = array(
-                    'post_type' => 'lp-testimonials',
-                    'orderby'       => $orderby,
-                    'order'         => $order,
-                    'posts_per_page' => $amount
-                );
-            }
-            else{
-                $args = array(
-                    'post_type' => 'lp-testimonials',
-                    'orderby'       => $orderby,
-                    'order'         => $order,
-                );
-            }
-
-        $loop = new WP_Query( $args );
-        if( $loop->have_posts() ){
-            //loop through testimonial items
-            while( $loop->have_posts() ): $loop->the_post();
-                $details = get_post_meta( get_the_id(), 'testimonial-details' );
-                $sector = wp_get_post_terms( get_the_id(), 'lp-sector' );
-                $content .= "<div class='lp-testimonial'>";
-                    $content .= "<div class='one-fourth first col lp-profile_pic'>";
-                        if( has_post_thumbnail( ) ){
-                            $content .= get_the_post_thumbnail( get_the_id(), 'lp-testimonial' );
-                        }
-                        else{
-                            $content .= "<img src='" . plugins_url( 'img/thesheen.jpg' , __FILE__ ) . "' alt='sheen' />";
-                        }
-                        if( $sector ){
-                            $content .= "<div class='sectors'>";
-                            foreach ($sector as $sector){
-                                $content .= $sector->name . '<br/>';
-                            }
-                            $content .= "</div>";
-                        }
-                    $content .= "</div>";
-                    $content .= "<div class='three-fourths col'>";
-                        $content .= "<h3>" . get_the_title() . "</h3>";
-                        if($details[0][0]) $content .= "<strong>" . $details[0][0] . "</strong>";
-                        if(!$details[0][1]) $content .= "<br/>";
-                        if($details[0][0] && $details[0][1]) $content .= "<span> - </span>";
-                        if($details[0][1]) $content .= "<strong>" . $details[0][1] . "</strong><br/>";
-                        if( get_the_content() ){
-                            $content .= apply_filters( 'the_content', get_the_content() );
-                        }
-                    $content .= "</div>";
-                    $content .= "<div class='clearfix'></div>";
-                $content .= "</div>";
-            endwhile;
-        }
-        if($content)
-        return $content;
     }
 }
 
