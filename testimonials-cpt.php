@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Genesis Testimonials CPT
  * Plugin URI: https://llamapress.com
- * Description: Use this plugin to add a Testimonial CPT to be used with the "testimonials" sortcode or a LlamaPress testimonial page template,
+ * Description: Use this plugin to add a Testimonial CPT,
  *              this plugin can only be used with the Genesis framework.
  * Version: 1.0
  * Author: LlamaPress
